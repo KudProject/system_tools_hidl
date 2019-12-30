@@ -31,7 +31,12 @@
 #include "TypeDef.h"
 #include "VectorType.h"
 
+// generated code prints std::string* which is disallowed
+// by android-base/logging.h
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wuser-defined-warnings"
 #include "hidl-gen_y.h"
+#pragma clang diagnostic pop
 
 #include <android-base/logging.h>
 #include <hidl-util/FQName.h>
@@ -208,12 +213,12 @@ bool isValidTypeName(const std::string& identifier, std::string *errorMsg) {
 %parse-param { android::Scope** const scope }
 %lex-param { void* scanner }
 %lex-param { android::Scope** const scope }
-%pure-parser
 %glr-parser
 %skeleton "glr.cc"
 
 %expect-rr 0
-%error-verbose
+%define parse.error verbose
+%locations
 
 %debug
 
